@@ -28,11 +28,20 @@ import Motion
 
 open class PulseView: View, Pulseable, PulseableLayer {
   /// A Pulse reference.
-  internal var pulse: Pulse!
+  internal var pulse: Pulse! {
+    didSet {
+      // Debugging statement to track how often this is set
+      print("Pulse was set")
+    }
+  }
   
   /// A reference to the pulse layer.
+  private var cachedPulseLayer: CALayer?
   internal var pulseLayer: CALayer? {
-    return pulse.pulseLayer
+    if cachedPulseLayer == nil {
+      cachedPulseLayer = pulse?.pulseLayer
+    }
+    return cachedPulseLayer
   }
   
   /// PulseAnimation value.
@@ -41,7 +50,7 @@ open class PulseView: View, Pulseable, PulseableLayer {
       return pulse.animation
     }
     set(value) {
-      guard value != pulse.animation else { return }s
+      guard value != pulse.animation else { return }
       pulse.animation = value
     }
   }
@@ -53,6 +62,7 @@ open class PulseView: View, Pulseable, PulseableLayer {
       return pulse.color
     }
     set(value) {
+      guard value != pulse.color else { return }
       pulse.color = value
     }
   }
@@ -64,6 +74,7 @@ open class PulseView: View, Pulseable, PulseableLayer {
       return pulse.opacity
     }
     set(value) {
+      guard value != pulse.opacity else { return }
       pulse.opacity = value
     }
   }
