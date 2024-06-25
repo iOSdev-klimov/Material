@@ -41,6 +41,7 @@ open class PulseView: View, Pulseable, PulseableLayer {
       return pulse.animation
     }
     set(value) {
+      guard value != pulse.animation else { return }s
       pulse.animation = value
     }
   }
